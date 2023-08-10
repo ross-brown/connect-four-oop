@@ -154,12 +154,10 @@ class Game {
       }
     }
   }
-
-
 }
 
-const game = new Game(6, 7);
-console.log(game);
+new Game(6, 7);
+
 
 // Game {h: 6, w: 7, board: [6], currPlayer: 1}
 
