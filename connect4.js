@@ -5,8 +5,6 @@
  * board fills (tie)
  */
 
-
-
 class Game {
   constructor(height, width, board = [], currPlayer = 1) {
     this.height = height;
