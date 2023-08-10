@@ -13,6 +13,7 @@ class Game {
     this.width = width;
     this.board = [];
     this.currPlayer = 1;
+    this.boardLocked = false;
 
     this.makeBoard();
     this.makeHtmlBoard();
@@ -86,6 +87,7 @@ class Game {
   /** endGame: announce game end */
 
   endGame(msg) {
+    this.boardLocked = true;
     alert(msg);
   }
 
@@ -93,6 +95,7 @@ class Game {
 
   handleClick(evt) {
     // get x from ID of clicked cell
+    if(this.boardLocked) return;
     const x = +evt.target.id;
 
     // get next spot in column (if none, ignore click)
@@ -160,4 +163,4 @@ class Game {
   }
 }
 
-new Game(6, 7);
+document.getElementById('start').addEventListener('click', () => new Game)
