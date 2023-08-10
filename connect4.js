@@ -6,12 +6,6 @@
  */
 
 
-/** makeBoard: create in-JS board structure:
- *   board = array of rows, each row is array of cells  (board[y][x])
- */
-
-
-// Expected '<div class="piece p1"></div>' to equal ''.
 
 class Game {
   constructor(height, width, board = [], currPlayer = 1) {
@@ -24,6 +18,10 @@ class Game {
     this.makeHtmlBoard();
   }
 
+  /** makeBoard: create in-JS board structure:
+   *   board = array of rows, each row is array of cells  (board[y][x])
+   */
+
   makeBoard() {
     for (let y = 0; y < this.height; y++) {
       this.board.push(Array.from({ length: this.width }, value => null));
@@ -35,7 +33,7 @@ class Game {
   makeHtmlBoard() {
     console.log('makeHtmlBoard ran');
     const board = document.getElementById('board');
-
+    board.innerHTML = '';
     // make column tops (clickable area for adding a piece to that column)
     const top = document.createElement('tr');
     top.setAttribute('id', 'column-top');
@@ -66,11 +64,7 @@ class Game {
   /** findSpotForCol: given column x, return top empty y (null if filled) */
 
   findSpotForCol(x) {
-    // console.log('this', this)
     for (let y = this.height - 1; y >= 0; y--) {
-      // console.log('board', board)
-      // console.log('x', x)
-      // console.log('y', y)
       if (!this.board[y][x]) {
         return y;
       }
@@ -128,6 +122,12 @@ class Game {
   /** checkForWin: check board cell-by-cell for "does a win start here?" */
 
   checkForWin() {
+
+    /** _win:
+     * takes input array of 4 cell coordinates [ [y, x], [y, x], [y, x], [y, x] ]
+     * returns true if all are legal coordinates for a cell & all cells match
+     * currPlayer
+     */
     function _win(cells) {
       // Check four cells to see if they're all color of current player
       //  - cells: list of four (y, x) cells
@@ -162,14 +162,3 @@ class Game {
 }
 
 new Game(6, 7);
-
-
-// Game {h: 6, w: 7, board: [6], currPlayer: 1}
-
-
-// Cannot read properties of undefined (reading 'push')
-
-// at Game.makeBoard (http://127.0.0.1:5500/connect4.js:27:18)
-//     at new Game (http://127.0.0.1:5500/connect4.js:20:10)
-//     at UserContext.<anonymous> (http://127.0.0.1:5500/part1.test.js:8:14)
-//     at <Jasmine>
