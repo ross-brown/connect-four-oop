@@ -26,7 +26,7 @@ class Game {
 
   makeBoard() {
     for (let y = 0; y < this.height; y++) {
-      this.board.push(Array.from({ length: this.width }));
+      this.board.push(Array.from({ length: this.width }, value => null));
     }
   }
 
@@ -42,7 +42,7 @@ class Game {
     for (let x = 0; x < this.width; x++) {
       const headCell = document.createElement('td');
       headCell.setAttribute('id', x);
-      headCell.addEventListener('click', this.handleClick);
+      headCell.addEventListener('click', this.handleClick.bind(this));
       top.append(headCell);
     }
 
@@ -65,8 +65,12 @@ class Game {
   /** findSpotForCol: given column x, return top empty y (null if filled) */
 
   findSpotForCol(x) {
+    // console.log('this', this)
     for (let y = this.height - 1; y >= 0; y--) {
-      if (!board[y][x]) {
+      console.log('board', board)
+      console.log('x', x)
+      console.log('y', y)
+      if (!this.board[y][x]) {
         return y;
       }
     }
@@ -104,16 +108,16 @@ class Game {
 
     // place piece in board and add to HTML table
     this.board[y][x] = this.currPlayer;
-    placeInTable(y, x);
+    this.placeInTable(y, x);
 
     // check for win
-    if (checkForWin()) {
-      return endGame(`Player ${this.currPlayer} won!`);
+    if (this.checkForWin()) {
+      return this.endGame(`Player ${this.currPlayer} won!`);
     }
 
     // check for tie
     if (this.board[0].every(cell => cell)) {
-      return endGame('Tie!');
+      return this.endGame('Tie!');
     }
 
     // switch players
@@ -123,18 +127,18 @@ class Game {
   /** checkForWin: check board cell-by-cell for "does a win start here?" */
 
   checkForWin() {
+    const that = this;
     function _win(cells) {
       // Check four cells to see if they're all color of current player
       //  - cells: list of four (y, x) cells
       //  - returns true if all are legal coordinates & all match currPlayer
-
       return cells.every(
         ([y, x]) =>
           y >= 0 &&
-          y < this.height &&
+          y < that.height &&
           x >= 0 &&
-          x < this.width &&
-          this.board[y][x] === this.currPlayer
+          x < that.width &&
+          that.board[y][x] === that.currPlayer
       );
     }
 
