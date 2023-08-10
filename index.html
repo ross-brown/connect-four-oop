@@ -1,15 +1,24 @@
 <!doctype html>
+
 <head>
   <title>Connect 4</title>
   <link href="connect4.css" rel="stylesheet">
 </head>
-<body>
-<button id="start">Start New Game</button>
-<div id="game">
-  <table id="board"></table>
-</div>
 
-<script src="connect4.js"></script>
+<body>
+  <form action="">
+    <label for="">Player One Color:</label>
+    <input id="player-one-color" type="text">
+    <label for="">Player Two Color:</label>
+    <input id="player-two-color" type="text">
+    <button id="start" type="submit">Start New Game</button>
+  </form>
+  <div id="game">
+    <table id="board"></table>
+  </div>
+
+  <script src="connect4.js"></script>
 
 </body>
+
 </html>

@@ -8,12 +8,14 @@
  */
 
 class Game {
-  constructor(height = 6, width = 7) {
+  constructor(playerOneColor, playerTwoColor, height = 6, width = 7) {
     this.height = height;
     this.width = width;
     this.board = [];
-    this.currPlayer = 1;
     this.boardLocked = false;
+    this.playerOne = new Player(playerOneColor);
+    this.playerTwo = new Player(playerTwoColor);
+    this.currPlayer = this.playerOne;
 
     this.makeBoard();
     this.makeHtmlBoard();
@@ -78,7 +80,7 @@ class Game {
   placeInTable(y, x) {
     const piece = document.createElement('div');
     piece.classList.add('piece');
-    piece.classList.add(`p${this.currPlayer}`);
+    piece.style.backgroundColor = `${this.currPlayer.color}`
 
     const spot = document.getElementById(`c-${y}-${x}`);
     spot.append(piece);
@@ -95,7 +97,7 @@ class Game {
 
   handleClick(evt) {
     // get x from ID of clicked cell
-    if(this.boardLocked) return;
+    if (this.boardLocked) return;
     const x = +evt.target.id;
 
     // get next spot in column (if none, ignore click)
@@ -105,12 +107,14 @@ class Game {
     }
 
     // place piece in board and add to HTML table
-    this.board[y][x] = this.currPlayer;
+    console.log('this is:', this);
+    console.log('this.currPlayer in handeClick is:', this.currPlayer);
+    this.board[y][x] = this.currPlayer.color;
     this.placeInTable(y, x);
 
     // check for win
     if (this.checkForWin()) {
-      return this.endGame(`Player ${this.currPlayer} won!`);
+      return this.endGame(`Player ${this.currPlayer.color} won!`);
     }
 
     // check for tie
@@ -119,7 +123,8 @@ class Game {
     }
 
     // switch players
-    this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+    // this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+    this.currPlayer = this.currPlayer === this.playerOne ? this.playerTwo : this.playerOne
   }
 
   /** checkForWin: check board cell-by-cell for "does a win start here?" */
@@ -131,7 +136,7 @@ class Game {
      * returns true if all are legal coordinates for a cell & all cells match
      * currPlayer
      */
-     const _win = (cells) => {
+    const _win = (cells) => {
       // Check four cells to see if they're all color of current player
       //  - cells: list of four (y, x) cells
       //  - returns true if all are legal coordinates & all match currPlayer
@@ -141,9 +146,9 @@ class Game {
           y < this.height &&
           x >= 0 &&
           x < this.width &&
-          this.board[y][x] === this.currPlayer
+          this.board[y][x] === this.currPlayer.color
       );
-    }
+    };
 
     for (let y = 0; y < this.height; y++) {
       for (let x = 0; x < this.width; x++) {
@@ -164,9 +169,23 @@ class Game {
 }
 
 class Player {
-  constructor(color){
+  constructor(color) {
     this.color = color;
   }
 }
 
-document.getElementById('start').addEventListener('click', () => new Game)
+document.getElementById('start').addEventListener('click', (e) => {
+  e.preventDefault();
+  const playerOneInput = document.getElementById("player-one-color");
+  const playerTwoInput = document.getElementById("player-two-color");
+
+  const playerOneColor = playerOneInput.value;
+  const playerTwoColor = playerTwoInput.value;
+
+  playerOneInput.value = '';
+  playerTwoInput.value = '';
+
+  // console.log("p1 color:",playerOneColor);
+  // console.log("p2 color:",playerTwoColor);
+  new Game(playerOneColor, playerTwoColor);
+});
