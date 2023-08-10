@@ -163,4 +163,10 @@ class Game {
   }
 }
 
+class Player {
+  constructor(color){
+    this.color = color;
+  }
+}
+
 document.getElementById('start').addEventListener('click', () => new Game)
