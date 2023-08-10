@@ -20,7 +20,7 @@ class Game {
     this.board = board;
     this.currPlayer = currPlayer;
 
-    this.makeBoard()
+    this.makeBoard();
     this.makeHtmlBoard();
   }
 
@@ -33,6 +33,7 @@ class Game {
   /** makeHtmlBoard: make HTML table and row of column tops. */
 
   makeHtmlBoard() {
+    console.log('makeHtmlBoard ran');
     const board = document.getElementById('board');
 
     // make column tops (clickable area for adding a piece to that column)
@@ -67,9 +68,9 @@ class Game {
   findSpotForCol(x) {
     // console.log('this', this)
     for (let y = this.height - 1; y >= 0; y--) {
-      console.log('board', board)
-      console.log('x', x)
-      console.log('y', y)
+      // console.log('board', board)
+      // console.log('x', x)
+      // console.log('y', y)
       if (!this.board[y][x]) {
         return y;
       }
@@ -127,7 +128,6 @@ class Game {
   /** checkForWin: check board cell-by-cell for "does a win start here?" */
 
   checkForWin() {
-    const that = this;
     function _win(cells) {
       // Check four cells to see if they're all color of current player
       //  - cells: list of four (y, x) cells
@@ -135,10 +135,10 @@ class Game {
       return cells.every(
         ([y, x]) =>
           y >= 0 &&
-          y < that.height &&
+          y < this.height &&
           x >= 0 &&
-          x < that.width &&
-          that.board[y][x] === that.currPlayer
+          x < this.width &&
+          this.board[y][x] === this.currPlayer
       );
     }
 
@@ -152,7 +152,8 @@ class Game {
         const diagDL = [[y, x], [y + 1, x - 1], [y + 2, x - 2], [y + 3, x - 3]];
 
         // find winner (only checking each win-possibility as needed)
-        if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) {
+        if (_win.call(this, horiz) || _win.call(this, vert)
+          || _win.call(this, diagDR) || _win.call(this, diagDL)) {
           return true;
         }
       }
