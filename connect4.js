@@ -80,7 +80,7 @@ class Game {
   placeInTable(y, x) {
     const piece = document.createElement('div');
     piece.classList.add('piece');
-    piece.style.backgroundColor = `${this.currPlayer.color}`
+    piece.style.backgroundColor = `${this.currPlayer.color}`;
 
     const spot = document.getElementById(`c-${y}-${x}`);
     spot.append(piece);
@@ -124,7 +124,7 @@ class Game {
 
     // switch players
     // this.currPlayer = this.currPlayer === 1 ? 2 : 1;
-    this.currPlayer = this.currPlayer === this.playerOne ? this.playerTwo : this.playerOne
+    this.currPlayer = this.currPlayer === this.playerOne ? this.playerTwo : this.playerOne;
   }
 
   /** checkForWin: check board cell-by-cell for "does a win start here?" */
@@ -185,8 +185,8 @@ document.getElementById('start').addEventListener('click', (e) => {
   playerOneInput.value = '';
   playerTwoInput.value = '';
 
-  const playerOne = new Player(playerOneColor)
-  const playerTwo = new Player(playerTwoColor)
+  const playerOne = new Player(playerOneColor);
+  const playerTwo = new Player(playerTwoColor);
   // console.log("p1 color:",playerOneColor);
   // console.log("p2 color:",playerTwoColor);
   new Game(playerOne, playerTwo);
