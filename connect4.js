@@ -8,13 +8,13 @@
  */
 
 class Game {
-  constructor(playerOneColor, playerTwoColor, height = 6, width = 7) {
+  constructor(playerOne, playerTwo, height = 6, width = 7) {
     this.height = height;
     this.width = width;
     this.board = [];
     this.boardLocked = false;
-    this.playerOne = new Player(playerOneColor);
-    this.playerTwo = new Player(playerTwoColor);
+    this.playerOne = playerOne;
+    this.playerTwo = playerTwo;
     this.currPlayer = this.playerOne;
 
     this.makeBoard();
@@ -109,7 +109,7 @@ class Game {
     // place piece in board and add to HTML table
     console.log('this is:', this);
     console.log('this.currPlayer in handeClick is:', this.currPlayer);
-    this.board[y][x] = this.currPlayer.color;
+    this.board[y][x] = this.currPlayer;
     this.placeInTable(y, x);
 
     // check for win
@@ -146,7 +146,7 @@ class Game {
           y < this.height &&
           x >= 0 &&
           x < this.width &&
-          this.board[y][x] === this.currPlayer.color
+          this.board[y][x]?.color === this.currPlayer.color
       );
     };
 
@@ -185,7 +185,9 @@ document.getElementById('start').addEventListener('click', (e) => {
   playerOneInput.value = '';
   playerTwoInput.value = '';
 
+  const playerOne = new Player(playerOneColor)
+  const playerTwo = new Player(playerTwoColor)
   // console.log("p1 color:",playerOneColor);
   // console.log("p2 color:",playerTwoColor);
-  new Game(playerOneColor, playerTwoColor);
+  new Game(playerOne, playerTwo);
 });
