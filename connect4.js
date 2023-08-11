@@ -123,7 +123,6 @@ class Game {
     }
 
     // switch players
-    // this.currPlayer = this.currPlayer === 1 ? 2 : 1;
     this.currPlayer = this.currPlayer === this.playerOne ? this.playerTwo : this.playerOne;
   }
 
@@ -174,20 +173,14 @@ class Player {
   }
 }
 
-document.getElementById('start').addEventListener('click', (e) => {
+/** Retrieve form inputs, create new players instances, and initialize game with players*/
+
+function startGame(e){
   e.preventDefault();
-  const playerOneInput = document.getElementById("player-one-color");
-  const playerTwoInput = document.getElementById("player-two-color");
-
-  const playerOneColor = playerOneInput.value;
-  const playerTwoColor = playerTwoInput.value;
-
-  playerOneInput.value = '';
-  playerTwoInput.value = '';
-
-  const playerOne = new Player(playerOneColor);
-  const playerTwo = new Player(playerTwoColor);
-  // console.log("p1 color:",playerOneColor);
-  // console.log("p2 color:",playerTwoColor);
+  const playerOne = new Player(document.getElementById("player-one-color").value);
+  const playerTwo = new Player(document.getElementById("player-two-color").value);
+  
   new Game(playerOne, playerTwo);
-});
+}
+
+document.getElementById('start').addEventListener('click', startGame);
